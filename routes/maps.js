@@ -8,6 +8,9 @@ require("dotenv").config();
 var router = express.Router();
 
 key = process.env.MAP_KEY;
+router.get("/hello", async function (req, res, next){
+  res.send("Hello World");
+})
 router.get("/fires", async function (req, res, next) {
   la = req.body["la"];
   lo = req.body["lo"];
