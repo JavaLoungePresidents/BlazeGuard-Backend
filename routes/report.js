@@ -46,7 +46,7 @@ router.post("/reports", async function (req, res, next) {
           parseFloat(r.longitude),
           req.body.latitude,
           req.body.longitude,
-          200
+          500
         )
       ) {
         reps.push(r);

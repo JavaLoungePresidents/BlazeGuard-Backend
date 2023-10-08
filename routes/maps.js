@@ -7,6 +7,8 @@ const moment = require('moment');
 require("dotenv").config();
 
 var router = express.Router();
+response_results = null;
+results_date = "";
 
 key = process.env.MAP_KEY;
 router.get("/hello", async function (req, res, next) {
@@ -25,11 +27,15 @@ router.post("/fires", async function (req, res, next) {
     key +
     "/VIIRS_NOAA20_NRT/world/1/"+date;
 
-  const results = [];
+  if(results_date!=date||response_results==null){
+    results_date = date;
+    response_results = await axios.get(area_url);
+
+  }
+
   const in_rad = [];
-  axios.get(area_url).then((response) => {
     streamifier
-      .createReadStream(response.data)
+      .createReadStream(response_results.data)
       .pipe(csv())
       .on("data", (row) => {
         results.push(row);
@@ -50,7 +56,6 @@ router.post("/fires", async function (req, res, next) {
         });
         res.send(in_rad);
       });
-  });
 });
 
 module.exports = router;
