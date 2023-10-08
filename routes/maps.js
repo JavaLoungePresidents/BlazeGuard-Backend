@@ -38,7 +38,7 @@ router.post("/fires", async function(req, res, next) {
 
   const in_rad = [];
   const sql =
-    "SELECT * FROM reports WHERE MONTH(report_datetime) = " + currentMonth;
+    "SELECT * FROM reports WHERE MONTH(report_datetime) = " + 10;
   const reps = [];
   connection.query(sql, (err, results) => {
     results.forEach((r) => {
@@ -57,7 +57,6 @@ router.post("/fires", async function(req, res, next) {
         reps.push(r);
       }
     });
-    res.send(reps);
   });
 
   streamifier
