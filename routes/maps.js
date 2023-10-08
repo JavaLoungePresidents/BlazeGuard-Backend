@@ -9,7 +9,7 @@ require("dotenv").config();
 var router = express.Router();
 
 key = process.env.MAP_KEY;
-router.get("/hello", async function (req, res, next){
+router.get("/hello", async function (req, res, next) {
   res.send("Hello World");
 })
 router.post("/fires", async function (req, res, next) {
