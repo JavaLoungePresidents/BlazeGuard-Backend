@@ -14,7 +14,7 @@ app.use("/blaze/maps", mapsRouter);
 
 app.use("/blaze/report", reportRouter);
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.send("Hello World!");
 });
 

@@ -1,24 +1,10 @@
-const mysql = require("mysql2");
 const ort = require("onnxruntime-node");
 var express = require("express");
 const jimp = require("jimp");
 const { inRadius } = require("../utils/coordUtils");
-
-require("dotenv").config();
+const { connection } = require("../utils/db");
 
 var router = express.Router();
-
-var connection = mysql.createConnection({
-  host: process.env.HOST,
-  user: "root",
-  password: process.env.PASSWORD,
-  database: process.env.DB,
-  port: 3306,
-});
-connection.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected to DB!");
-});
 
 const onnxModel = new ort.InferenceSession("best.onnx");
 
@@ -73,7 +59,7 @@ async function performInference(imageData) {
     return null;
   }
 }
-router.post("/submit", async function (req, res, next) {
+router.post("/submit", async function(req, res, next) {
   const { report_datetime, image_validated, latitude, longitude } = req.body;
   const sql =
     "INSERT INTO reports (report_datetime, image_validated, latitude, longitude) VALUES (?, ?, ?, ?)";
@@ -88,9 +74,11 @@ router.post("/submit", async function (req, res, next) {
       res.status(200).json({ message: "Data inserted successfully" });
     }
   });
-  console.log(performInference(req.body.image));
+  if (req.body.image != null) {
+    console.log(performInference(req.body.image));
+  }
 });
-router.post("/reports", async function (req, res, next) {
+router.post("/reports", async function(req, res, next) {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
 
