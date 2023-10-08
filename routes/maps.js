@@ -3,6 +3,7 @@ const csv = require("csv-parser");
 const axios = require("axios");
 const streamifier = require("streamifier");
 const { inRadius } = require("../utils/coordUtils");
+const moment = require('moment');
 require("dotenv").config();
 
 var router = express.Router();
@@ -11,14 +12,18 @@ key = process.env.MAP_KEY;
 router.get("/hello", async function (req, res, next){
   res.send("Hello World");
 })
-router.get("/fires", async function (req, res, next) {
+router.post("/fires", async function (req, res, next) {
   la = req.body["la"];
   lo = req.body["lo"];
   radius = req.body["radius"];
+  console.log("la", "lo", "radius");
+  console.log(la,lo,radius);
+    const date = moment().subtract(1, 'days').format('YYYY-MM-DD');
+
   area_url =
     "https://firms.modaps.eosdis.nasa.gov/api/area/csv/" +
     key +
-    "/VIIRS_NOAA20_NRT/world/1";
+    "/VIIRS_NOAA20_NRT/world/1/"+date;
 
   const results = [];
   const in_rad = [];

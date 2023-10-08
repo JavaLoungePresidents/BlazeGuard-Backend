@@ -23,8 +23,9 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 function inRadius(lat1, lon1, lat2, lon2, radiusKm) {
-  // console.log(lat1, lon1, lat2, lon2, radiusKm);
+  console.log(lat1, lon1, lat2, lon2, radiusKm);
   const distance = calculateDistance(lat1, lon1, lat2, lon2);
+  console.log("distance", distance);
   return distance <= radiusKm;
 }
 

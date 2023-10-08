@@ -33,18 +33,20 @@ router.post("/submit", async function (req, res, next) {
     }
   });
 });
-router.get("/reports", async function (req, res, next) {
-  const sql = "SELECT * FROM blazeguard";
+router.post("/reports", async function (req, res, next) {
+  const sql = "SELECT * FROM reports";
   const reps = [];
   connection.query(sql, (err, results) => {
     results.forEach((r) => {
+      console.log(parseFloat(r.latitude));
+      console.log(parseFloat(r.longitude));
       if (
         inRadius(
-          r.latitude,
-          r.longitude,
-          req.body.lat,
-          req.body.lon,
-          req.body.radius
+          parseFloat(r.latitude),
+          parseFloat(r.longitude),
+          req.body.latitude,
+          req.body.longitude,
+          200
         )
       ) {
         reps.push(r);
