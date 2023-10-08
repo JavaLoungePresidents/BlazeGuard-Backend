@@ -34,7 +34,10 @@ router.post("/submit", async function (req, res, next) {
   });
 });
 router.post("/reports", async function (req, res, next) {
-  const sql = "SELECT * FROM reports";
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+
+  const sql = "SELECT * FROM reports WHERE MONTH(report_datetime) = "+currentMonth;
   const reps = [];
   connection.query(sql, (err, results) => {
     results.forEach((r) => {
@@ -46,9 +49,11 @@ router.post("/reports", async function (req, res, next) {
           parseFloat(r.longitude),
           req.body.latitude,
           req.body.longitude,
-          500
+          100
         )
       ) {
+        
+
         reps.push(r);
       }
     });

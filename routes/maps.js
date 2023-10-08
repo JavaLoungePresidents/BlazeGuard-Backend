@@ -32,6 +32,7 @@ router.post("/fires", async function (req, res, next) {
     response_results = await axios.get(area_url);
 
   }
+  const results = [];
 
   const in_rad = [];
     streamifier
